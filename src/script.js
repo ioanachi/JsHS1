@@ -244,15 +244,19 @@ function returnProject(projID) {
             var projectSprints = proj.sprints;
             projectSprints.forEach(function (sprintProj) {
                 issues.forEach(function (iss) {
-                    if (iss.sprint == sprintProj) {
-                        returnProjectIssues.push(iss);
-                        returnProjectSprints.push(iss.sprint);
-                        if (iss.type == "bugs") {
-                            returnProjectBugs.push(iss.id);
-                        } else if (iss.type == "features") {
-                            returnProjectFeatures.push(iss.id);
+                    var issSprint=iss.sprint;
+                    issSprint.forEach(function(sprintOfIss)){
+                        if (sprintOfIss == sprintProj) {
+                            returnProjectIssues.push(iss);
+                            returnProjectSprints.push(sprintOfIss);
+                            if (iss.type == "bugs") {
+                                returnProjectBugs.push(iss.id);
+                            } else if (iss.type == "features") {
+                                returnProjectFeatures.push(iss.id);
+                            }
                         }
                     }
+                 
                 })
             })
         }
@@ -261,4 +265,9 @@ function returnProject(projID) {
     return projectData;
 }
 
+var returnStatusIssues=[];
+var returnSprintIssues=[];
 
+function filterIssuesSprint(){
+
+}

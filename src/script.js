@@ -32,7 +32,7 @@ var issues = [{
     id: 2,
     type: "tasks",
     name: "Second project",
-    sprint: 4,
+    sprint: 1,
     createdBy: 1,
     assignee: 3,
     description: "update a table",
@@ -158,6 +158,10 @@ function createIssue(userID, issueVal) {
 
 };
 createIssue(users[1].id, newIssueValues);
+
+
+
+
 // console.log(issues);
 
 // var recursiveFunc = function (parentArr, arr, stateToChange, parentIss) {
@@ -181,6 +185,7 @@ function updateIssue(issueToUpdateId, newSprint) {
             let arrOfSubtasks = item.tasks;
             // create an array with all the ids of the subtasks
 
+            console.log(item, "subtsk");
 
 
             if (item.sprint != newSprint) {
@@ -192,6 +197,7 @@ function updateIssue(issueToUpdateId, newSprint) {
                         if (element.id == arrOfSubtasks[i]) {
                             //retain into a variable the subtasks of the element
                             subtsk.push(element);
+                            
                             element.sprint = item.sprint
                         }
 
@@ -205,6 +211,7 @@ function updateIssue(issueToUpdateId, newSprint) {
                     //find the issue and chande the task status
                 })
             }
+            
             function isCompleted(subtaskid) {
                 if (subtaskid == states[4].id) {
                     item.status = states[2].id
@@ -216,7 +223,7 @@ function updateIssue(issueToUpdateId, newSprint) {
         }
     })
 }
-updateIssue(1, 2)
+updateIssue(2, 2)
 
 
 var newSprintValues = {
@@ -293,14 +300,16 @@ filterByStatus("rework");
 
 
 function filterIssueBySprint(sprintID) {
-    issues.forEach(function (isu) {
-        var sprintsInIssues = isu.sprints;
-        sprintsInIssues.forEach(function (sprintsaIds) {
-            if (sprintsaIds == sprintID) {
-                returnStatusIssues.push(isu.name);
-            }
-        }
+        console.log( issues);
+        issues.forEach(function (isue) {
+        var sprintidInIssues = isue.sprint;
+        console.log( isue.sprint);
+        
+        if(sprintID===isue.sprint){
 
-        )
+        }
     })
+    
+    // return returnSprintIssues
 }
+filterIssueBySprint(3);

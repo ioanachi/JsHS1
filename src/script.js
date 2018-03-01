@@ -159,24 +159,6 @@ function createIssue(userID, issueVal) {
 };
 createIssue(users[1].id, newIssueValues);
 
-
-
-
-// console.log(issues);
-
-// var recursiveFunc = function (parentArr, arr, stateToChange, parentIss) {
-//     for (var i = 0; i < arr.length - 1; i++)
-//         // loop through issues and find the corresponding ones to change the sprint status
-//         parentArr.forEach(function (childIss) {
-//             if (childIss.id == arr[i]) {
-//                 childIss.stateToChange = parentIss.stateToChange;
-//                 //find the issue adn chande the sprint status
-//             }
-//         })
-
-// }
-
-
 function isCompleted(subtaskid) {
     return subtaskid == states[4].id
 }
@@ -281,14 +263,6 @@ function returnProject(projID) {
 }
 returnProject(2);
 
-
-
-
-
-
-
-
-
 var returnStatusIssues = []; // will contain all the issues with that status
 
 var returnSprintIssues = [];// will contain all the issues with that sprint id
@@ -312,14 +286,6 @@ function filterByStatus(statesName) {
 
 filterByStatus("rework");
 //function to filter by status takes as a parameter the name of the status
-
-
-
-
-
-
-
-
 function filterIssueBySprint(sprintID) {
     console.log(issues);
 

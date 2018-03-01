@@ -157,7 +157,7 @@ function createIssue(userID, issueVal) {
     issues.push(newIssue);
 
 };
-createIssue(users[1].id, newIssueValues );
+createIssue(users[1].id, newIssueValues);
 // console.log(issues);
 
 // var recursiveFunc = function (parentArr, arr, stateToChange, parentIss) {
@@ -245,7 +245,7 @@ function returnProject(projID) {
             projectSprints.forEach(function (sprintProj) {
                 issues.forEach(function (iss) {
                     var issSprint = iss.sprint;
-                    issSprint.forEach(function (sprintOfIss){
+                    issSprint.forEach(function (sprintOfIss) {
                         if (sprintOfIss == sprintProj) {
                             returnProjectIssues.push(iss);
                             returnProjectSprints.push(sprintOfIss);
@@ -272,15 +272,14 @@ var returnSprintIssues = [];// will contain all the issues with that sprint id
 
 
 
-function filterByStatus (statesName){
-    let returnStatusId = states.filter(status =>status.value==statesName);
+function filterByStatus(statesName) {
+    let returnStatusId = states.filter(status => status.value == statesName);
     returnStatusId = returnStatusId[0];
     //variable returnStatusId has the id of the statues the user filters by
     returnStatusId = returnStatusId.id;
-
-let issuesWithStatus = issues.filter()
-
-    console.log(returnStatusId)
+    //variable returnStatusIssues is an array with the issues that have the status id required
+    returnStatusIssues = issues.filter(issu => issu.status == returnStatusId)
+    return returnStatusIssues
 }
 
 filterByStatus("rework");
@@ -294,14 +293,14 @@ filterByStatus("rework");
 
 
 function filterIssueBySprint(sprintID) {
-        issues.forEach(function(isu){
-var sprintsInIssues=isu.sprints;
-sprintsInIssues.forEach(function(sprintsaIds){
-if(sprintsaIds==sprintID){
-    returnStatusIssues.push(isu.name);
-}
-}
+    issues.forEach(function (isu) {
+        var sprintsInIssues = isu.sprints;
+        sprintsInIssues.forEach(function (sprintsaIds) {
+            if (sprintsaIds == sprintID) {
+                returnStatusIssues.push(isu.name);
+            }
+        }
 
-)
-        })
+        )
+    })
 }

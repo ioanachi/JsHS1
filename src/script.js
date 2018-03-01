@@ -185,20 +185,21 @@ function updateIssue(issueToUpdateId, newSprint) {
             let arrOfSubtasks = item.tasks;
             // create an array with all the ids of the subtasks
 
-            console.log(item, "subtsk");
+            console.log(item.sprint,newSprint,arrOfSubtasks, "subtsk");
 
 
             if (item.sprint != newSprint) {
+                item.sprint=newSprint;
                 //if the sprint is changed then change the subtasks:...
                 // recursiveFunc(issues, arrOfSubtasks, sprint, item)
                 for (var i = 0; i < arrOfSubtasks.length - 1; i++) {
                     // loop through the array of issues and find the issues from the array  according to ids
                     issues.forEach(function (element) {
                         if (element.id == arrOfSubtasks[i]) {
-                            //retain into a variable the subtasks of the element
+                            //retain into a variable the subtasks of the issue
                             subtsk.push(element);
                             
-                            element.sprint = item.sprint
+                            element.sprint = newSprint;
                         }
 
                     })
@@ -223,7 +224,7 @@ function updateIssue(issueToUpdateId, newSprint) {
         }
     })
 }
-updateIssue(2, 2)
+updateIssue(1, 2)
 
 
 var newSprintValues = {

@@ -229,11 +229,36 @@ function createSprint(newSprintValues) {
     newSprint.name = newSprintValues.name;
     sprints.push(newSprint);
 }
-function returnProject() {
 
+
+
+var returnProjectSprints = [];
+var returnProjectBugs = [];
+var returnProjectFeatures = [];
+var returnProjectIssues = [];
+
+
+function returnProject(projID) {
+    projects.forEach(function (proj) {
+        if (projID == proj.id) {
+            var projectSprints = proj.sprints;
+            projectSprints.forEach(function (sprintProj) {
+                issues.forEach(function (iss) {
+                    if (iss.sprint == sprintProj) {
+                        returnProjectIssues.push(iss);
+                        returnProjectSprints.push(iss.sprint);
+                        if (iss.type == "bugs") {
+                            returnProjectBugs.push(iss.id);
+                        } else if (iss.type == "features") {
+                            returnProjectFeatures.push(iss.id);
+                        }
+                    }
+                })
+            })
+        }
+    })
+    var projectData = "project" + projID + "has" + returnProjectSprints.length + "sprints" + returnProjectIssues.length + "issues" + returnProjectBugs + "bugs" + returnProjectFeatures + "features";
+    return projectData;
 }
 
-
-id: 1,
-    sprints: 3
 

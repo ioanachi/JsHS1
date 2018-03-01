@@ -136,7 +136,7 @@ var newIssueValues = {
     sprint: 4,
     assignee: 3,
     description: "other functions",
-    status: 1,
+    status: states[0].id,
     tasks: [5, 6],
     comments: 3,
 }
@@ -318,7 +318,6 @@ var createSprint = document.getElementById('createSprint');
 var createCreatedBy = document.getElementById('createCreatedBy');
 var createAssignee = document.getElementById('createAssignee');
 var createDescription = document.getElementById('createDescription');
-var createStatus = document.getElementById('createStatus');
 var createTasks = document.getElementById('createTasks');
 var createComments = document.getElementById('createComments');
 
@@ -363,8 +362,27 @@ var types = [{
 populateSelects(createType, types, "name");
 populateSelects(updateType, types, "name");
 
-populateSelects(createStatus, states, "value");
 populateSelects(updateStatus, states, "value");
 
-// populateSelects(updateType, types, "name");
-// populateSelects(updateType, types, "name");
+populateSelects(createTasks, issues, "name");
+populateSelects(updateTasks, issues, "name");
+var createBtn = document.getElementById('createIssueBtn');
+createBtn.addEventListener('click', function () {
+    var newType;
+    newType = types.filter(function (item) { return createType.value == item.id });
+    console.log(newType, "createType.value");
+    var tasksArr = [];
+    tasksArr.push(createTasks.value);
+    var newIssue = {
+        type: newType[0].name,
+        name: createName.value,
+        sprint: createSprint.value,
+        assignee: createAssignee.value,
+        description: createDescription.value,
+        status:states[0].id,
+        tasks: tasksArr,
+        comments: createComments.value
+    }
+    createIssue(users[1].id, newIssue);
+});
+console.log(issues);

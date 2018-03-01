@@ -175,6 +175,12 @@ createIssue(users[1].id, newIssueValues);
 //         })
 
 // }
+
+
+function isCompleted (subtaskid) {
+    return subtaskid == states[4].id
+}
+
 function updateIssue(issueToUpdateId, newSprint) {
     issues.forEach(function (item) {
         if (issueToUpdateId == item.id) {
@@ -213,31 +219,28 @@ function updateIssue(issueToUpdateId, newSprint) {
                 })
             }
 
-            function isCompleted(subtaskid) {
-                if (subtaskid == states[4].id) {
-                    item.status = states[2].id
-                }
-                return false;
-            }
-            subtsk.every(isCompleted);
+           
+            if(subtsk.every(isCompleted)){
+                item.status=states[2].value;
+            };
 
         }
     })
 }
-updateIssue(1, 2)
+updateIssue(1, 2);
 
 
 var newSprintValues = {
     id: 5,
     name: "menu"
 }
-function createSprint(newSprintValues) {
+function createSprint(newValues) {
     var newSprint = {};
-    newSprint.id = newSprintValues.id;
-    newSprint.name = newSprintValues.name;
+    newSprint.id = newValues.id;
+    newSprint.name = newValues.name;
     sprints.push(newSprint);
 }
-
+createSprint(newSprintValues);
 
 
 var returnProjectSprints = [];
@@ -246,6 +249,8 @@ var returnProjectFeatures = [];
 var returnProjectIssues = [];
 
 
+//user needs to see an overview of the current project, broken down per sprints, how many issues in each status, how many features, how many bugs, etc
+//function that takes as a parameter the project id
 function returnProject(projID) {
     projects.forEach(function (proj) {
         if (projID == proj.id) {
@@ -270,8 +275,11 @@ function returnProject(projID) {
         }
     })
     var projectData = "project" + projID + "has" + returnProjectSprints.length + "sprints" + returnProjectIssues.length + "issues" + returnProjectBugs + "bugs" + returnProjectFeatures + "features";
+    console.log(projectData);
+    
     return projectData;
 }
+returnProject(3);
 
 var returnStatusIssues = []; // will contain all the issues with that status
 

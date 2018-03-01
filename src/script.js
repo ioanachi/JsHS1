@@ -140,24 +140,24 @@ var newIssueValues = {
     tasks: [5, 6],
     comments: 3,
 }
-function createIssue(userID, newIssueValues) {
+function createIssue(userID, issueVal) {
     var newIssue = {}
     newIssue.id = issues[issues.length - 1].id + 1;
     newIssue.createdBy = userID;
-    newIssue.name = newIssueValues.name;
-    newIssue.sprint = newIssueValues.sprint;
-    newIssue.assignee = newIssueValues.assignee;
-    newIssue.description = newIssueValues.description;
-    newIssue.status = newIssueValues.status;
-    newIssue.tasks = newIssueValues.tasks;
-    newIssue.comments = newIssueValues.comments;
+    newIssue.name = issueVal.name;
+    newIssue.sprint = issueVal.sprint;
+    newIssue.assignee = issueVal.assignee;
+    newIssue.description = issueVal.description;
+    newIssue.status = issueVal.status;
+    newIssue.tasks = issueVal.tasks;
+    newIssue.comments = issueVal.comments;
     newIssue.createdAt = todaysDate();
     newIssue.updatedAt = todaysDate();
     newIssue.status = states[0];
     issues.push(newIssue);
 
 };
-createIssue(users[1].id);
+createIssue(users[1].id, newIssueValues );
 // console.log(issues);
 
 // var recursiveFunc = function (parentArr, arr, stateToChange, parentIss) {
@@ -244,8 +244,8 @@ function returnProject(projID) {
             var projectSprints = proj.sprints;
             projectSprints.forEach(function (sprintProj) {
                 issues.forEach(function (iss) {
-                    var issSprint=iss.sprint;
-                    issSprint.forEach(function(sprintOfIss)){
+                    var issSprint = iss.sprint;
+                    issSprint.forEach(function (sprintOfIss){
                         if (sprintOfIss == sprintProj) {
                             returnProjectIssues.push(iss);
                             returnProjectSprints.push(sprintOfIss);
@@ -255,8 +255,8 @@ function returnProject(projID) {
                                 returnProjectFeatures.push(iss.id);
                             }
                         }
-                    }
-                 
+                    })
+
                 })
             })
         }
@@ -265,9 +265,43 @@ function returnProject(projID) {
     return projectData;
 }
 
-var returnStatusIssues=[];
-var returnSprintIssues=[];
+var returnStatusIssues = []; // will contain all the issues with that status
 
-function filterIssuesSprint(){
+var returnSprintIssues = [];// will contain all the issues with that sprint id
 
+
+
+
+function filterByStatus (statesName){
+    let returnStatusId = states.filter(status =>status.value==statesName);
+    returnStatusId = returnStatusId[0];
+    //variable returnStatusId has the id of the statues the user filters by
+    returnStatusId = returnStatusId.id;
+
+let issuesWithStatus = issues.filter()
+
+    console.log(returnStatusId)
+}
+
+filterByStatus("rework");
+//function to filter by status takes as a parameter the name of the status
+
+
+
+
+
+
+
+
+function filterIssueBySprint(sprintID) {
+        issues.forEach(function(isu){
+var sprintsInIssues=isu.sprints;
+sprintsInIssues.forEach(function(sprintsaIds){
+if(sprintsaIds==sprintID){
+    returnStatusIssues.push(isu.name);
+}
+}
+
+)
+        })
 }

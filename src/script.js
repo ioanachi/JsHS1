@@ -16,7 +16,7 @@ var users = [{
 
 var issues = [{
     id: 1,
-    type: "features",
+    type: "feature",
     name: "First project",
     sprint: 3,
     createdBy: 2,
@@ -30,7 +30,7 @@ var issues = [{
 },
 {
     id: 2,
-    type: "tasks",
+    type: "task",
     name: "Second project",
     sprint: 1,
     createdBy: 1,
@@ -244,8 +244,8 @@ function returnProject(projID) {
         issSprint = iss.sprint;
         returnProjectSprints.forEach(function (sprintsId) {
             if (iss.sprint == sprintsId) {
-        // console.log(iss.sprint, "issSprint");
-                
+                // console.log(iss.sprint, "issSprint");
+
                 if (iss.type == "bugs") {
                     returnProjectBugs.push(iss.id);
                 } else if (iss.type == "features") {
@@ -303,3 +303,68 @@ function filterIssueBySprint(sprintID) {
     return returnSprintIssues;
 }
 filterIssueBySprint(3);
+
+// var tableUser = document.getElementById('userTable');
+// console.log(tableUser, "tableUser");
+// var rowsUserName = "<tr>"<td>Name</td><td>"++"</tr>";
+// users.forEach(function(user){
+//     rowsUserName +="<td>Name</td><td>"+user.name+"</td>"
+// })
+
+// /create objects 
+var createType = document.getElementById('createType');
+var createName = document.getElementById('createName');
+var createSprint = document.getElementById('createSprint');
+var createCreatedBy = document.getElementById('createCreatedBy');
+var createAssignee = document.getElementById('createAssignee');
+var createDescription = document.getElementById('createDescription');
+var createStatus = document.getElementById('createStatus');
+var createTasks = document.getElementById('createTasks');
+var createComments = document.getElementById('createComments');
+
+// /update objects 
+var updateType = document.getElementById('updateType');
+var updateName = document.getElementById('updateName');
+var updateSprint = document.getElementById('updateSprint');
+var updateById = document.getElementById('updateById');
+var updateAssignee = document.getElementById('updateAssignee');
+var updateDescription = document.getElementById('updateDescription');
+var updateStatus = document.getElementById('updateStatus');
+var updateTasks = document.getElementById('updateTasks');
+var updateComments = document.getElementById('updateComments');
+
+
+function populateSelects(theSelect, data, parameter) {
+    console.log(theSelect);
+
+    var finalHtml = "";
+    data.forEach(function (item) {
+        console.log(item, "item");
+
+        finalHtml += "<option value=\"" + item.id + "\">" + item[parameter] + "</option>";
+    })
+    theSelect.innerHTML = finalHtml;
+}
+populateSelects(createSprint, sprints, "name");
+populateSelects(updateSprint, sprints, "name");
+
+populateSelects(updateComments, comments, "name");
+populateSelects(createComments, comments, "name");
+var types = [{
+    id: 1,
+    name: "feature"
+}, {
+    id: 2,
+    name: "bug"
+}, {
+    id: 3,
+    name: "task"
+}];
+populateSelects(createType, types, "name");
+populateSelects(updateType, types, "name");
+
+populateSelects(createStatus, states, "value");
+populateSelects(updateStatus, states, "value");
+
+// populateSelects(updateType, types, "name");
+// populateSelects(updateType, types, "name");

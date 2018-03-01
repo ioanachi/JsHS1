@@ -1,26 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-<table>
-<th>user</th>
-<th>#</th>
-<tr><td>id</td>
-<td>nr</td></tr>
 
-</table>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="./src/main.css">
+</head>
+
+<body>
+  <table id="userTable">
+    <th>user</th>
+    <th>#</th>
+    <tr>
+      <td>id</td>
+      <td id="userId"></td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td id="userName"></td>
+    </tr>
+  </table>
+
+
+  <form action="" id="createForm">
+    <h3>Create Issue</h3>
+    Type:
+    <select name="" id="createType"></select>
+    </br>
+    Name:
+    <input id="createName" type="text" placeholder="name">
+    </br>
+    Sprint:
+    <select name="" id="createSprint"></select>
+    </br>
+    Created By:
+    <input id="createCreatedBy" type="number" placeholder="created by">
+    </br>
+    Assignee:
+    <input id="createAssignee" type="number" placeholder="assignee">
+    </br>
+    Description:
+    <input id="createDescription" type="text" placeholder="description">
+    </br>
+    Status:
+    <select name="" id="createStatus"></select>
+    </br>
+    Tasks:
+    <select name="" id="createTasks"></select>
+    </br>
+    Comments:
+    <select name="" id="createComments"></select>
+    </br>
+    <p>
+      <button id="createIssueBtn">Create Issue</button>
+    </p>
+  </form>
+
+
+  <form action="" id="updateForm">
+    <h3>Update Issue</h3>
+    Type:
+    <select name="" id="updateType"></select>
+    </br>
+    Name:
+    <input id="updateName" type="text" placeholder="name">
+    </br>
+    Sprint:
+    <select name="" id="updateSprint"></select>
+    </br>
+    Created By:
+    <input id="updateById" type="number" placeholder="updated by">
+    </br>
+    Assignee:
+    <input id="updateAssignee" type="number" placeholder="assignee">
+    </br>
+    Description:
+    <input id="updateDescription" type="text" placeholder="description">
+    </br>
+    Status:
+    <select name="" id="updateStatus"></select>
+    </br>
+    Tasks:
+    <select name="" id="updateTasks"></select>
+    </br>
+    Comments:
+    <select name="" id="updateComments"></select>
+    </br>
+    <p>
+      <button id="updateIssueBtn">Update Issue</button>
+    </p>
+
+  </form>
 
 
 
-<button id="createBtn" >Create</button>
-<button id="updateBtn" >Update</button>
 
 
 
 
-    <script type="text/javascript" src="./src/script.js"></script>
-  </body>
+
+
+
+
+  <script type="text/javascript" src="./src/script.js"></script>
+</body>
+
 </html>

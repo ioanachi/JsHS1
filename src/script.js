@@ -185,20 +185,20 @@ function updateIssue(issueToUpdateId, newSprint) {
             let arrOfSubtasks = item.tasks;
             // create an array with all the ids of the subtasks
 
-            console.log(item.sprint,newSprint,arrOfSubtasks, "subtsk");
+            console.log(item.sprint, newSprint, arrOfSubtasks, "subtsk");
 
 
             if (item.sprint != newSprint) {
-                item.sprint=newSprint;
+                item.sprint = newSprint; // if the sprint differs from the new one then change the sprint of the issue and change all the subtasks issues  else no change
                 //if the sprint is changed then change the subtasks:...
                 // recursiveFunc(issues, arrOfSubtasks, sprint, item)
                 for (var i = 0; i < arrOfSubtasks.length - 1; i++) {
-                    // loop through the array of issues and find the issues from the array  according to ids
+                    // loop through the array of issues and find the subissues from the array  according to ids
                     issues.forEach(function (element) {
                         if (element.id == arrOfSubtasks[i]) {
                             //retain into a variable the subtasks of the issue
                             subtsk.push(element);
-                            
+
                             element.sprint = newSprint;
                         }
 
@@ -212,7 +212,7 @@ function updateIssue(issueToUpdateId, newSprint) {
                     //find the issue and chande the task status
                 })
             }
-            
+
             function isCompleted(subtaskid) {
                 if (subtaskid == states[4].id) {
                     item.status = states[2].id
@@ -301,16 +301,23 @@ filterByStatus("rework");
 
 
 function filterIssueBySprint(sprintID) {
-        console.log( issues);
-        issues.forEach(function (isue) {
-        var sprintidInIssues = isue.sprint;
-        console.log( isue.sprint);
-        
-        if(sprintID===isue.sprint){
+    console.log(issues);
 
+    issues.forEach(function (isue) {
+        var sprintidInIssues = isue.sprint;
+
+        if (sprintID === isue.sprint) {
+            returnSprintIssues.push(isue);
         }
     })
-    
-    // return returnSprintIssues
+    // return the array that contains all the issues withn that sprint id, you have to loop though them in order to return the issues names
+    let namesOfIssues = [];
+    returnSprintIssues.forEach(function (issue) {
+        namesOfIssues.push(issue.name)
+
+    })
+    returnSprintIssues = namesOfIssues
+    return returnSprintIssues;
 }
 filterIssueBySprint(3);
+console.log(returnSprintIssues);

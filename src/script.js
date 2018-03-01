@@ -257,7 +257,6 @@ function returnProject(projID) {
 
 
     var projectData = "project" + projID + "has" + returnProjectSprints.length + "sprints" + returnProjectIssues.length + "issues" + returnProjectBugs + "bugs" + returnProjectFeatures + "features";
-    console.log(projectData);
 
     return projectData;
 }
@@ -279,7 +278,6 @@ function filterByStatus(statesName) {
 
     //variable returnStatusIssues is an array with the issues that have the status id required
     returnStatusIssues = issues.filter(function (issu) { return issu.status == returnStatusId })
-    console.log(returnStatusIssues, "returnStatusIssues");
 
     return returnStatusIssues
 }
@@ -287,7 +285,6 @@ function filterByStatus(statesName) {
 filterByStatus("rework");
 //function to filter by status takes as a parameter the name of the status
 function filterIssueBySprint(sprintID) {
-    console.log(issues);
 
     issues.forEach(function (isue) {
         var sprintidInIssues = isue.sprint;
@@ -306,4 +303,3 @@ function filterIssueBySprint(sprintID) {
     return returnSprintIssues;
 }
 filterIssueBySprint(3);
-console.log(returnSprintIssues);

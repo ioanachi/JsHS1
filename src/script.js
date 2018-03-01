@@ -136,7 +136,7 @@ var newIssueValues = {
     sprint: 4,
     assignee: 3,
     description: "other functions",
-    status: 4,
+    status: 1,
     tasks: [5, 6],
     comments: 3,
 }
@@ -177,7 +177,7 @@ createIssue(users[1].id, newIssueValues);
 // }
 
 
-function isCompleted (subtaskid) {
+function isCompleted(subtaskid) {
     return subtaskid == states[4].id
 }
 
@@ -192,7 +192,6 @@ function updateIssue(issueToUpdateId, newSprint) {
             // create an array with all the ids of the subtasks
 
             console.log(item.sprint, newSprint, arrOfSubtasks, "subtsk");
-
 
             if (item.sprint != newSprint) {
                 item.sprint = newSprint; // if the sprint differs from the new one then change the sprint of the issue and change all the subtasks issues  else no change
@@ -219,9 +218,9 @@ function updateIssue(issueToUpdateId, newSprint) {
                 })
             }
 
-           
-            if(subtsk.every(isCompleted)){
-                item.status=states[2].value;
+
+            if (subtsk.every(isCompleted)) {
+                item.status = states[2].value;
             };
 
         }
@@ -252,34 +251,42 @@ var returnProjectIssues = [];
 //user needs to see an overview of the current project, broken down per sprints, how many issues in each status, how many features, how many bugs, etc
 //function that takes as a parameter the project id
 function returnProject(projID) {
-    projects.forEach(function (proj) {
-        if (projID == proj.id) {
-            var projectSprints = proj.sprints;
-            projectSprints.forEach(function (sprintProj) {
-                issues.forEach(function (iss) {
-                    var issSprint = iss.sprint;
-                    issSprint.forEach(function (sprintOfIss) {
-                        if (sprintOfIss == sprintProj) {
-                            returnProjectIssues.push(iss);
-                            returnProjectSprints.push(sprintOfIss);
-                            if (iss.type == "bugs") {
-                                returnProjectBugs.push(iss.id);
-                            } else if (iss.type == "features") {
-                                returnProjectFeatures.push(iss.id);
-                            }
-                        }
-                    })
-
-                })
-            })
-        }
+    //filter through ihe arr of projects to find the one that has the parameter passed to the function
+    let projectToSearch = projects.filter(function (proj) { return proj.id == projID });
+    console.log(projectToSearch[0].sprints, "projectToSearch");
+    // the id is unique, so there is only one project with that id so one projetct to return values, so projectToSearch[0].sprints returns all the sprints of that project
+    returnProjectSprints = projectToSearch[0].sprints; //variable that retains all the sprints of the project;
+    // to return the issues of that project we need to filter through the arr of issues and return those that have the sprints of the project
+    issues.forEach(function (iss) {
+        issSprint = iss.sprint;
+        returnProjectSprints.forEach(function (sprintsId) {
+            if (iss.sprint == sprintsId) {
+        // console.log(iss.sprint, "issSprint");
+                
+                if (iss.type == "bugs") {
+                    returnProjectBugs.push(iss.id);
+                } else if (iss.type == "features") {
+                    returnProjectFeatures.push(iss.id);
+                }
+            }
+        })
     })
+
+
     var projectData = "project" + projID + "has" + returnProjectSprints.length + "sprints" + returnProjectIssues.length + "issues" + returnProjectBugs + "bugs" + returnProjectFeatures + "features";
     console.log(projectData);
-    
+
     return projectData;
 }
-returnProject(3);
+returnProject(2);
+
+
+
+
+
+
+
+
 
 var returnStatusIssues = []; // will contain all the issues with that status
 
@@ -287,14 +294,18 @@ var returnSprintIssues = [];// will contain all the issues with that sprint id
 
 
 
-
 function filterByStatus(statesName) {
-    let returnStatusId = states.filter(status => status.value == statesName);
+    // find the status id from the status name by filtring through the arr of states
+    let returnStatusId = states.filter(function (status) { return status.value == statesName });
     returnStatusId = returnStatusId[0];
+
     //variable returnStatusId has the id of the statues the user filters by
     returnStatusId = returnStatusId.id;
+
     //variable returnStatusIssues is an array with the issues that have the status id required
-    returnStatusIssues = issues.filter(issu => issu.status == returnStatusId)
+    returnStatusIssues = issues.filter(function (issu) { return issu.status == returnStatusId })
+    console.log(returnStatusIssues, "returnStatusIssues");
+
     return returnStatusIssues
 }
 

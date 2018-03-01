@@ -211,6 +211,7 @@ function updateIssue(issueToUpdateId, newSprint) {
                 }
             }
             //check if the issue has a change in task from new to any other
+            // task changes its status from New to any other, it's corresponding issue will change it's status as well to it's parent status.
             if (item.status != states[0].id) {
                 subtsk.forEach(function (subiss) {
                     subiss.status = item.status

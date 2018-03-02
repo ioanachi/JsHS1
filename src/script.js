@@ -59,7 +59,7 @@ var issues = [{
 
 var projects = [{
     id: 1,
-    sprints: [1, 3]
+    sprints: [1, 2, 3]
 }];
 
 
@@ -92,20 +92,23 @@ var comments = [{
 
 
 var states = [{
-    id: 0,
+    id: 1,
     value: "new"
 }, {
-    id: 1,
+    id: 2,
     value: "in progress"
 }, {
-    id: 2,
+    id: 3,
     value: "feedback"
 }, {
-    id: 3,
+    id: 4,
     value: "rework"
 }, {
-    id: 4,
+    id: 5,
     value: "resolved"
+}, {
+    id: 6,
+    value: "ready for testing"
 }];
 
 
@@ -127,18 +130,19 @@ var todaysDate = function () {
 var newIssueValues = {
     type: "bug",
     name: "Fourth Project",
-    sprint: 4,
+    sprint: 3,
     assignee: 3,
     description: "other functions",
-    status: states[0].id,
+    status: 1,
     tasks: [5, 6],
-    comments: 3,
+    comments: [3],
 }
 function createIssue(userID, issueVal) {
-    var newIssue = {}
+    var newIssue = {};
     newIssue.id = issues[issues.length - 1].id + 1;
     newIssue.createdBy = userID;
     newIssue.name = issueVal.name;
+    newIssue.type = issueVal.type;
     newIssue.sprint = issueVal.sprint;
     newIssue.assignee = issueVal.assignee;
     newIssue.description = issueVal.description;
@@ -147,14 +151,14 @@ function createIssue(userID, issueVal) {
     newIssue.comments = issueVal.comments;
     newIssue.createdAt = todaysDate();
     newIssue.updatedAt = todaysDate();
-    newIssue.status = states[0];
+    newIssue.status = issueVal.status;
     issues.push(newIssue);
 
 };
 createIssue(users[1].id, newIssueValues);
 
 function isCompleted(subtaskid) {
-    return subtaskid == states[4].id
+    return subtaskid == 6;
 }
 
 function updateIssue(issueToUpdateId, newSprint) {
@@ -167,7 +171,7 @@ function updateIssue(issueToUpdateId, newSprint) {
             let arrOfSubtasks = item.tasks;
             // create an array with all the ids of the subtasks
 
-            console.log(item.sprint, newSprint, arrOfSubtasks, "subtsk");
+            // console.log(item.sprint, newSprint, arrOfSubtasks, "subtsk");
 
             if (item.sprint != newSprint) {
                 item.sprint = newSprint; // if the sprint differs from the new one then change the sprint of the issue and change all the subtasks issues  else no change
@@ -188,7 +192,7 @@ function updateIssue(issueToUpdateId, newSprint) {
             }
             //check if the issue has a change in task from new to any other
             // task changes its status from New to any other, it's corresponding issue will change it's status as well to it's parent status.
-            if (item.status != states[0].id) {
+            if (item.status != 1) {
                 subtsk.forEach(function (subiss) {
                     subiss.status = item.status
                     //find the issue and chande the task status
@@ -197,7 +201,7 @@ function updateIssue(issueToUpdateId, newSprint) {
 
 
             if (subtsk.every(isCompleted)) {
-                item.status = states[2].value;
+                item.status = 6;
             };
 
         }
@@ -219,19 +223,24 @@ function createSprint(newValues) {
 createSprint(newSprintValues);
 
 
-var projectSprints = [];
-var returnProjectBugs = 0;
-var returnProjectFeatures = 0;
-var returnProjectIssues = 0;
-var returnProjectComments=0;
 
 
 //user needs to see an overview of the current project, broken down per sprints, how many issues in each status, how many features, how many bugs, etc
 //function that takes as a parameter the project id
 function getSprintData(projID) {
+    var projectSprints = [];
+    var returnProjectBugs = 0;
+    var returnProjectFeatures = 0;
+    var returnProjectTask = 0;
+
+    var returnProjectIssues = 0;
+    var returnProjectComments = 0;
+    var returnProjectStatuses = {
+
+    };
     //filter through ihe arr of projects to find the one that has the parameter passed to the function
     let projectToSearch = projects.filter(function (proj) { return proj.id == projID });
-    console.log(projectToSearch[0].sprints, "projectToSearch");
+    // console.log(projectToSearch[0].sprints, "projectToSearch");
     // the id is unique, so there is only one project with that id so one projetct to return values, so projectToSearch[0].sprints returns all the sprints of that project
     projectSprints = projectToSearch[0].sprints; //variable that retains all the sprints of the project;
     // to return the issues of that project we need to filter through the arr of issues and return those that have the sprints of the project
@@ -241,31 +250,47 @@ function getSprintData(projID) {
             if (iss.sprint == sprintsId) {
                 returnProjectIssues++;
                 if (iss.type == "bug") {
-                console.log(iss.type, "issSprint");
-                    
+                    console.log(iss.type, "is bug");
+
                     returnProjectBugs++;
                     // console.log(returnProjectBugs, "returnProjectFeatures");
-                    
+
                 } else if (iss.type == "feature") {
                     returnProjectFeatures++;
                     // console.log(returnProjectFeatures, "returnProjectFeatures");
-                    
+
+                }
+                else if (iss.type == "task") {
+                    returnProjectTask++;
+                    // console.log(returnProjectFeatures, "returnProjectFeatures");
+
                 }
                 returnProjectComments = returnProjectComments + iss.comments.length;
+                // console.log(returnProjectComments);
+
+
+                if (returnProjectStatuses[iss.status]) {
+                    returnProjectStatuses[iss.status]++;
+                } else {
+                    returnProjectStatuses[iss.status] = 1;
+                }
+
             }
         })
     })
 
 
-    var projectData ={
-        sprintsNr:projectSprints.length,
-        issuesNr:returnProjectIssues,
-        bugNr:returnProjectBugs,
-        featureNr:returnProjectFeatures,
-        commentNr: returnProjectComments
+    var projectData = {
+        sprintsNr: projectSprints.length,
+        issuesNr: returnProjectIssues,
+        bugNr: returnProjectBugs,
+        featureNr: returnProjectFeatures,
+        commentNr: returnProjectComments,
+        statusNr: returnProjectStatuses,
+        taskNr: returnProjectTask
 
-    }; 
-console.log(projectData, "projectData");
+    };
+    console.log(projectData, "projectData");
 
     return projectData;
 }
@@ -331,15 +356,15 @@ var createTasks = document.getElementById('createTasks');
 var createComments = document.getElementById('createComments');
 
 // /update objects 
-var updateType = document.getElementById('updateType');
-var updateName = document.getElementById('updateName');
-var updateSprint = document.getElementById('updateSprint');
-var updateById = document.getElementById('updateById');
-var updateAssignee = document.getElementById('updateAssignee');
-var updateDescription = document.getElementById('updateDescription');
-var updateStatus = document.getElementById('updateStatus');
-var updateTasks = document.getElementById('updateTasks');
-var updateComments = document.getElementById('updateComments');
+// var updateType = document.getElementById('updateType');
+// var updateName = document.getElementById('updateName');
+// var updateSprint = document.getElementById('updateSprint');
+// var updateById = document.getElementById('updateById');
+// var updateAssignee = document.getElementById('updateAssignee');
+// var updateDescription = document.getElementById('updateDescription');
+// var updateStatus = document.getElementById('updateStatus');
+// var updateTasks = document.getElementById('updateTasks');
+// var updateComments = document.getElementById('updateComments');
 
 
 function populateSelects(theSelect, data, parameter) {
@@ -354,27 +379,23 @@ function populateSelects(theSelect, data, parameter) {
     theSelect.innerHTML = finalHtml;
 }
 populateSelects(createSprint, sprints, "name");
-populateSelects(updateSprint, sprints, "name");
-
-populateSelects(updateComments, comments, "name");
+// populateSelects(updateSprint, sprints, "name");
+// populateSelects(updateComments, comments, "name");
 populateSelects(createComments, comments, "name");
 var types = [{
-    id: 1,
-    name: "feature"
+    id: "feature"
 }, {
-    id: 2,
-    name: "bug"
+    id: "bug"
 }, {
-    id: 3,
-    name: "task"
+    id: "task"
 }];
-populateSelects(createType, types, "name");
-populateSelects(updateType, types, "name");
+populateSelects(createType, types, "id");
+// populateSelects(updateType, types, "name");
 
-populateSelects(updateStatus, states, "value");
+// populateSelects(updateStatus, states, "value");
 
 populateSelects(createTasks, issues, "name");
-populateSelects(updateTasks, issues, "name");
+// populateSelects(updateTasks, issues, "name");
 var createBtn = document.getElementById('createIssueBtn');
 createBtn.addEventListener('click', function () {
     var newType;
@@ -383,22 +404,44 @@ createBtn.addEventListener('click', function () {
     var tasksArr = [];
     tasksArr.push(createTasks.value);
     var newIssue = {
-        type: newType[0].name,
+        type: newType[0].id,
         name: createName.value,
         sprint: createSprint.value,
         assignee: createAssignee.value,
         description: createDescription.value,
-        status:states[0].id,
+        status: 1,
         tasks: tasksArr,
         comments: createComments.value
     }
     createIssue(users[1].id, newIssue);
+    var projectData = getSprintData(1);
+    console.log(projectData);
+    projectTable();
 });
-console.log(issues);
+// console.log(issues);
 
 
-function projectTable(){
-    getSprintData(1);
+function projectTable() {
+    var projectData = getSprintData(1);
+    var tableContent = "";
+    var statusesKeys=Object.keys(projectData.statusNr);
+    console.log(statusesKeys);
+    var statusContent ="Statuses(";
+var currentProj=document.getElementById("currentProject");
+statusesKeys.forEach(function(item){
+     statusContent += " "+item +" : "+projectData.statusNr[item]+',';
+
+});
+statusContent += ')';
+console.log(statusContent, "statusContent");
+
+tableContent = "Sprints: "+projectData.sprintsNr +"; Nr of Issues: "+projectData.issuesNr +"; "
+ +statusContent+
+"; Nr of Bugs: "+projectData.bugNr +
+";  Nr of Features: "+projectData.featureNr+";  Nr of Tasks: "+projectData.taskNr +
+";  Nr of Comments: "+projectData.commentNr+".";
 
 
+currentProj.innerHTML=tableContent;
 }
+projectTable();

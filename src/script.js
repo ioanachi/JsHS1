@@ -59,13 +59,7 @@ var issues = [{
 
 var projects = [{
     id: 1,
-    sprints: [3, 7]
-}, {
-    id: 2,
-    sprints: [4, 5]
-}, {
-    id: 3,
-    sprints: 2
+    sprints: [1, 3]
 }];
 
 
@@ -225,42 +219,54 @@ function createSprint(newValues) {
 createSprint(newSprintValues);
 
 
-var returnProjectSprints = [];
-var returnProjectBugs = [];
-var returnProjectFeatures = [];
-var returnProjectIssues = [];
+var projectSprints = [];
+var returnProjectBugs = 0;
+var returnProjectFeatures = 0;
+var returnProjectIssues = 0;
 
 
 //user needs to see an overview of the current project, broken down per sprints, how many issues in each status, how many features, how many bugs, etc
 //function that takes as a parameter the project id
-function returnProject(projID) {
+function getSprintData(projID) {
     //filter through ihe arr of projects to find the one that has the parameter passed to the function
     let projectToSearch = projects.filter(function (proj) { return proj.id == projID });
     console.log(projectToSearch[0].sprints, "projectToSearch");
     // the id is unique, so there is only one project with that id so one projetct to return values, so projectToSearch[0].sprints returns all the sprints of that project
-    returnProjectSprints = projectToSearch[0].sprints; //variable that retains all the sprints of the project;
+    projectSprints = projectToSearch[0].sprints; //variable that retains all the sprints of the project;
     // to return the issues of that project we need to filter through the arr of issues and return those that have the sprints of the project
     issues.forEach(function (iss) {
         issSprint = iss.sprint;
-        returnProjectSprints.forEach(function (sprintsId) {
+        projectSprints.forEach(function (sprintsId) {
             if (iss.sprint == sprintsId) {
-                // console.log(iss.sprint, "issSprint");
-
-                if (iss.type == "bugs") {
-                    returnProjectBugs.push(iss.id);
-                } else if (iss.type == "features") {
-                    returnProjectFeatures.push(iss.id);
+                returnProjectIssues++;
+                if (iss.type == "bug") {
+                console.log(iss.type, "issSprint");
+                    
+                    returnProjectBugs++;
+                    // console.log(returnProjectBugs, "returnProjectFeatures");
+                    
+                } else if (iss.type == "feature") {
+                    returnProjectFeatures++;
+                    // console.log(returnProjectFeatures, "returnProjectFeatures");
+                    
                 }
             }
         })
     })
 
 
-    var projectData = "project" + projID + "has" + returnProjectSprints.length + "sprints" + returnProjectIssues.length + "issues" + returnProjectBugs + "bugs" + returnProjectFeatures + "features";
+    var projectData ={
+        sprintsNr:projectSprints.length,
+        issuesNr:returnProjectIssues,
+        bugNr:returnProjectBugs,
+        featureNr:returnProjectFeatures
+
+    }; 
+console.log(projectData, "projectData");
 
     return projectData;
 }
-returnProject(2);
+getSprintData(1);
 
 var returnStatusIssues = []; // will contain all the issues with that status
 
@@ -334,11 +340,11 @@ var updateComments = document.getElementById('updateComments');
 
 
 function populateSelects(theSelect, data, parameter) {
-    console.log(theSelect);
+    // console.log(theSelect);
 
     var finalHtml = "";
     data.forEach(function (item) {
-        console.log(item, "item");
+        // console.log(item, "item");
 
         finalHtml += "<option value=\"" + item.id + "\">" + item[parameter] + "</option>";
     })
@@ -370,7 +376,7 @@ var createBtn = document.getElementById('createIssueBtn');
 createBtn.addEventListener('click', function () {
     var newType;
     newType = types.filter(function (item) { return createType.value == item.id });
-    console.log(newType, "createType.value");
+    // console.log(newType, "createType.value");
     var tasksArr = [];
     tasksArr.push(createTasks.value);
     var newIssue = {
@@ -386,3 +392,10 @@ createBtn.addEventListener('click', function () {
     createIssue(users[1].id, newIssue);
 });
 console.log(issues);
+
+
+function projectTable(){
+    getSprintData(1);
+
+
+}

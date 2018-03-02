@@ -52,7 +52,7 @@ var issues = [{
     description: "Timezones",
     status: 3,
     tasks: [7, 2],
-    comments: 1,
+    comments: [1, 3],
     updatedAt: '1 - 03 - 2018',
     createdAt: "8 - 03 - 2018",
 }];
@@ -223,6 +223,7 @@ var projectSprints = [];
 var returnProjectBugs = 0;
 var returnProjectFeatures = 0;
 var returnProjectIssues = 0;
+var returnProjectComments=0;
 
 
 //user needs to see an overview of the current project, broken down per sprints, how many issues in each status, how many features, how many bugs, etc
@@ -250,6 +251,7 @@ function getSprintData(projID) {
                     // console.log(returnProjectFeatures, "returnProjectFeatures");
                     
                 }
+                returnProjectComments = returnProjectComments + iss.comments.length;
             }
         })
     })
@@ -259,7 +261,8 @@ function getSprintData(projID) {
         sprintsNr:projectSprints.length,
         issuesNr:returnProjectIssues,
         bugNr:returnProjectBugs,
-        featureNr:returnProjectFeatures
+        featureNr:returnProjectFeatures,
+        commentNr: returnProjectComments
 
     }; 
 console.log(projectData, "projectData");

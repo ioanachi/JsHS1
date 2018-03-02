@@ -1,8 +1,3 @@
-
-
-
-
-
 var users = [{
     id: 1,
     name: "Mougli"
@@ -176,7 +171,6 @@ function updateIssue(issueToUpdateId, newSprint) {
             if (item.sprint != newSprint) {
                 item.sprint = newSprint; // if the sprint differs from the new one then change the sprint of the issue and change all the subtasks issues  else no change
                 //if the sprint is changed then change the subtasks:...
-                // recursiveFunc(issues, arrOfSubtasks, sprint, item)
                 for (var i = 0; i < arrOfSubtasks.length - 1; i++) {
                     // loop through the array of issues and find the subissues from the array  according to ids
                     issues.forEach(function (element) {
@@ -240,7 +234,6 @@ function getSprintData(projID) {
     };
     //filter through ihe arr of projects to find the one that has the parameter passed to the function
     let projectToSearch = projects.filter(function (proj) { return proj.id == projID });
-    // console.log(projectToSearch[0].sprints, "projectToSearch");
     // the id is unique, so there is only one project with that id so one projetct to return values, so projectToSearch[0].sprints returns all the sprints of that project
     projectSprints = projectToSearch[0].sprints; //variable that retains all the sprints of the project;
     // to return the issues of that project we need to filter through the arr of issues and return those that have the sprints of the project
@@ -250,25 +243,14 @@ function getSprintData(projID) {
             if (iss.sprint == sprintsId) {
                 returnProjectIssues++;
                 if (iss.type == "bug") {
-                    console.log(iss.type, "is bug");
-
                     returnProjectBugs++;
-                    // console.log(returnProjectBugs, "returnProjectFeatures");
-
                 } else if (iss.type == "feature") {
                     returnProjectFeatures++;
-                    // console.log(returnProjectFeatures, "returnProjectFeatures");
-
                 }
                 else if (iss.type == "task") {
                     returnProjectTask++;
-                    // console.log(returnProjectFeatures, "returnProjectFeatures");
-
                 }
                 returnProjectComments = returnProjectComments + iss.comments.length;
-                // console.log(returnProjectComments);
-
-
                 if (returnProjectStatuses[iss.status]) {
                     returnProjectStatuses[iss.status]++;
                 } else {
@@ -338,14 +320,6 @@ function filterIssueBySprint(sprintID) {
 }
 filterIssueBySprint(3);
 
-// var tableUser = document.getElementById('userTable');
-// console.log(tableUser, "tableUser");
-// var rowsUserName = "<tr>"<td>Name</td><td>"++"</tr>";
-// users.forEach(function(user){
-//     rowsUserName +="<td>Name</td><td>"+user.name+"</td>"
-// })
-
-// /create objects 
 var createType = document.getElementById('createType');
 var createName = document.getElementById('createName');
 var createSprint = document.getElementById('createSprint');
@@ -355,32 +329,16 @@ var createDescription = document.getElementById('createDescription');
 var createTasks = document.getElementById('createTasks');
 var createComments = document.getElementById('createComments');
 
-// /update objects 
-// var updateType = document.getElementById('updateType');
-// var updateName = document.getElementById('updateName');
-// var updateSprint = document.getElementById('updateSprint');
-// var updateById = document.getElementById('updateById');
-// var updateAssignee = document.getElementById('updateAssignee');
-// var updateDescription = document.getElementById('updateDescription');
-// var updateStatus = document.getElementById('updateStatus');
-// var updateTasks = document.getElementById('updateTasks');
-// var updateComments = document.getElementById('updateComments');
-
 
 function populateSelects(theSelect, data, parameter) {
-    // console.log(theSelect);
 
     var finalHtml = "";
     data.forEach(function (item) {
-        // console.log(item, "item");
-
         finalHtml += "<option value=\"" + item.id + "\">" + item[parameter] + "</option>";
     })
     theSelect.innerHTML = finalHtml;
 }
 populateSelects(createSprint, sprints, "name");
-// populateSelects(updateSprint, sprints, "name");
-// populateSelects(updateComments, comments, "name");
 populateSelects(createComments, comments, "name");
 var types = [{
     id: "feature"
@@ -390,17 +348,11 @@ var types = [{
     id: "task"
 }];
 populateSelects(createType, types, "id");
-// populateSelects(updateType, types, "name");
-
-// populateSelects(updateStatus, states, "value");
-
 populateSelects(createTasks, issues, "name");
-// populateSelects(updateTasks, issues, "name");
 var createBtn = document.getElementById('createIssueBtn');
 createBtn.addEventListener('click', function () {
     var newType;
     newType = types.filter(function (item) { return createType.value == item.id });
-    // console.log(newType, "createType.value");
     var tasksArr = [];
     tasksArr.push(createTasks.value);
     var newIssue = {
@@ -415,33 +367,29 @@ createBtn.addEventListener('click', function () {
     }
     createIssue(users[1].id, newIssue);
     var projectData = getSprintData(1);
-    console.log(projectData);
     projectTable();
 });
-// console.log(issues);
 
 
 function projectTable() {
     var projectData = getSprintData(1);
     var tableContent = "";
     var statusesKeys=Object.keys(projectData.statusNr);
-    console.log(statusesKeys);
     var statusContent ="Statuses(";
 var currentProj=document.getElementById("currentProject");
 statusesKeys.forEach(function(item){
-     statusContent += " "+item +" : "+projectData.statusNr[item]+',';
+   var y= states.filter(function(status){ return status.id == item  })
+    
+     statusContent += " "+y[0].value +" : "+projectData.statusNr[item]+';';
 
 });
 statusContent += ')';
-console.log(statusContent, "statusContent");
 
 tableContent = "Sprints: "+projectData.sprintsNr +"; Nr of Issues: "+projectData.issuesNr +"; "
  +statusContent+
 "; Nr of Bugs: "+projectData.bugNr +
 ";  Nr of Features: "+projectData.featureNr+";  Nr of Tasks: "+projectData.taskNr +
 ";  Nr of Comments: "+projectData.commentNr+".";
-
-
 currentProj.innerHTML=tableContent;
 }
 projectTable();

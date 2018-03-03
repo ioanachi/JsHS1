@@ -393,3 +393,21 @@ tableContent = "Sprints: "+projectData.sprintsNr +"; Nr of Issues: "+projectData
 currentProj.innerHTML=tableContent;
 }
 projectTable();
+function createProjTable(){
+    var projectData = getSprintData(1);
+    console.log(projectData.sprintsNr);
+    
+    var tableContent = "";
+    tableContent = "<table><tbody>";
+var projectTable = document.getElementById("projectData");
+tableContent += "<tr><td>Sprints</td>"+"<td>"+ projectData.sprintsNr +"</td></tr>"+
+            "<tr><td>Issues</td>"+"<td>"+ projectData.issuesNr +"</td></tr>"
+            +"<tr><td>Bugs</td>"+"<td>"+ projectData.bugNr +"</td></tr>"
+            +"<tr><td>Features</td>"+"<td>"+ projectData.featureNr +"</td></tr>"
+            +"<tr><td>Comments</td>"+"<td>"+ projectData.commentNr +"</td></tr>"
+            +"</tbody></table>"
+
+            projectTable.innerHTML=tableContent;
+
+        }
+        createProjTable()

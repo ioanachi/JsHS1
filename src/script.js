@@ -367,29 +367,55 @@ createBtn.addEventListener('click', function () {
     }
     createIssue(users[1].id, newIssue);
     var projectData = getSprintData(1);
-    projectTable();
+    // projectTable();
+    createProjTable();
 });
 
 
-function projectTable() {
+// function projectTable() {
+//     var projectData = getSprintData(1);
+//     var tableContent = "";
+//     var statusesKeys = Object.keys(projectData.statusNr);
+//     var statusContent = "Statuses(";
+//     var currentProj = document.getElementById("currentProject");
+//     statusesKeys.forEach(function (item) {
+//         var y = states.filter(function (status) { return status.id == item })
+
+//         statusContent += " " + y[0].value + " : " + projectData.statusNr[item] + ';';
+
+//     });
+//     statusContent += ')';
+
+//     tableContent = "Sprints: " + projectData.sprintsNr + "; Nr of Issues: " + projectData.issuesNr + "; "
+//         + statusContent +
+//         "; Nr of Bugs: " + projectData.bugNr +
+//         ";  Nr of Features: " + projectData.featureNr + ";  Nr of Tasks: " + projectData.taskNr +
+//         ";  Nr of Comments: " + projectData.commentNr + ".";
+//     currentProj.innerHTML = tableContent;
+// }
+// projectTable();
+function createProjTable() {
     var projectData = getSprintData(1);
-    var tableContent = "";
-    var statusesKeys=Object.keys(projectData.statusNr);
-    var statusContent ="Statuses(";
-var currentProj=document.getElementById("currentProject");
-statusesKeys.forEach(function(item){
-   var y= states.filter(function(status){ return status.id == item  })
-    
-     statusContent += " "+y[0].value +" : "+projectData.statusNr[item]+';';
+    console.log(projectData.sprintsNr);
+    var statusesKeys = Object.keys(projectData.statusNr);
+    var statusContent="";
 
-});
-statusContent += ')';
+    statusesKeys.forEach(function (item) {
+        var y = states.filter(function (status) { return status.id == item })
 
-tableContent = "Sprints: "+projectData.sprintsNr +"; Nr of Issues: "+projectData.issuesNr +"; "
- +statusContent+
-"; Nr of Bugs: "+projectData.bugNr +
-";  Nr of Features: "+projectData.featureNr+";  Nr of Tasks: "+projectData.taskNr +
-";  Nr of Comments: "+projectData.commentNr+".";
-currentProj.innerHTML=tableContent;
+        statusContent += "<tr><td> " + y[0].value + "</td> <td>" + projectData.statusNr[item] + '</td></tr>';
+
+    });
+console.log(statusContent);
+    var projectTableData = document.getElementById("projectTable");
+    var tableContentData = "<table><tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
+        "<tr><td>Issues</td>" + "<td>" + projectData.issuesNr + "</td></tr>" +
+        "<tr><td>Bugs</td>" + "<td>" + projectData.bugNr + "</td></tr>" +
+        "<tr><td>Features</td>" + "<td>" + projectData.featureNr + "</td></tr>" +
+        "<tr><td>Comments</td>" + "<td>" + projectData.commentNr + "</td></tr>" + statusContent+
+        "</table>"
+        console.log(projectTableData);
+
+        projectTableData.innerHTML = tableContentData;
 }
-projectTable();
+createProjTable();

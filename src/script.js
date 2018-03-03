@@ -368,6 +368,7 @@ createBtn.addEventListener('click', function () {
     createIssue(users[1].id, newIssue);
     var projectData = getSprintData(1);
     projectTable();
+    createProjTable();
 });
 
 
@@ -408,10 +409,9 @@ function createProjTable() {
 console.log(statusContent);
 
 
-    var tableContent = "";
-    tableContent = "<table><tbody>";
+    
     var projectTableData = document.getElementById("projectTable");
-    tableContent += "<tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
+    var tableContent = "<table><tbody>"+ "<tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
         "<tr><td>Issues</td>" + "<td>" + projectData.issuesNr + "</td></tr>" +
         "<tr><td>Bugs</td>" + "<td>" + projectData.bugNr + "</td></tr>" +
         "<tr><td>Features</td>" + "<td>" + projectData.featureNr + "</td></tr>" +

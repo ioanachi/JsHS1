@@ -403,7 +403,7 @@ function createProjTable() {
     statusesKeys.forEach(function (item) {
         var y = states.filter(function (status) { return status.id == item })
 
-        statusContent += "<tr><td> " + y[0].value + "</td> <td>" + projectData.statusNr[item] + '</td></tr>';
+        statusContent = "<tr><td> " + y[0].value + "</td> <td>" + projectData.statusNr[item] + '</td></tr>';
 
     });
 console.log(statusContent);
@@ -411,15 +411,15 @@ console.log(statusContent);
 
     
     var projectTableData = document.getElementById("projectTable");
-    var tableContent = "<table><tbody>"+ "<tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
+    var tableContentData = "<table><tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
         "<tr><td>Issues</td>" + "<td>" + projectData.issuesNr + "</td></tr>" +
         "<tr><td>Bugs</td>" + "<td>" + projectData.bugNr + "</td></tr>" +
         "<tr><td>Features</td>" + "<td>" + projectData.featureNr + "</td></tr>" +
         "<tr><td>Comments</td>" + "<td>" + projectData.commentNr + "</td></tr>" + statusContent+
-        "</tbody></table>"
+        "</table>"
         console.log(projectTableData);
 
-        projectTableData.innerHTML = tableContent;
+        projectTableData.innerHTML = tableContentData;
 
 }
 createProjTable();

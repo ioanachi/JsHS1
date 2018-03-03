@@ -374,40 +374,52 @@ createBtn.addEventListener('click', function () {
 function projectTable() {
     var projectData = getSprintData(1);
     var tableContent = "";
-    var statusesKeys=Object.keys(projectData.statusNr);
-    var statusContent ="Statuses(";
-var currentProj=document.getElementById("currentProject");
-statusesKeys.forEach(function(item){
-   var y= states.filter(function(status){ return status.id == item  })
-    
-     statusContent += " "+y[0].value +" : "+projectData.statusNr[item]+';';
+    var statusesKeys = Object.keys(projectData.statusNr);
+    var statusContent = "Statuses(";
+    var currentProj = document.getElementById("currentProject");
+    statusesKeys.forEach(function (item) {
+        var y = states.filter(function (status) { return status.id == item })
 
-});
-statusContent += ')';
+        statusContent += " " + y[0].value + " : " + projectData.statusNr[item] + ';';
 
-tableContent = "Sprints: "+projectData.sprintsNr +"; Nr of Issues: "+projectData.issuesNr +"; "
- +statusContent+
-"; Nr of Bugs: "+projectData.bugNr +
-";  Nr of Features: "+projectData.featureNr+";  Nr of Tasks: "+projectData.taskNr +
-";  Nr of Comments: "+projectData.commentNr+".";
-currentProj.innerHTML=tableContent;
+    });
+    statusContent += ')';
+
+    tableContent = "Sprints: " + projectData.sprintsNr + "; Nr of Issues: " + projectData.issuesNr + "; "
+        + statusContent +
+        "; Nr of Bugs: " + projectData.bugNr +
+        ";  Nr of Features: " + projectData.featureNr + ";  Nr of Tasks: " + projectData.taskNr +
+        ";  Nr of Comments: " + projectData.commentNr + ".";
+    currentProj.innerHTML = tableContent;
 }
 projectTable();
-function createProjTable(){
+function createProjTable() {
     var projectData = getSprintData(1);
     console.log(projectData.sprintsNr);
-    
+    var statusesKeys = Object.keys(projectData.statusNr);
+    var statusContent 
+
+    statusesKeys.forEach(function (item) {
+        var y = states.filter(function (status) { return status.id == item })
+
+        statusContent += "<tr><td> " + y[0].value + "</td> <td>" + projectData.statusNr[item] + '</td></tr>';
+
+    });
+console.log(statusContent);
+
+
     var tableContent = "";
     tableContent = "<table><tbody>";
-var projectTable = document.getElementById("projectData");
-tableContent += "<tr><td>Sprints</td>"+"<td>"+ projectData.sprintsNr +"</td></tr>"+
-            "<tr><td>Issues</td>"+"<td>"+ projectData.issuesNr +"</td></tr>"
-            +"<tr><td>Bugs</td>"+"<td>"+ projectData.bugNr +"</td></tr>"
-            +"<tr><td>Features</td>"+"<td>"+ projectData.featureNr +"</td></tr>"
-            +"<tr><td>Comments</td>"+"<td>"+ projectData.commentNr +"</td></tr>"
-            +"</tbody></table>"
+    var projectTableData = document.getElementById("projectTable");
+    tableContent += "<tr><td>Sprints</td>" + "<td>" + projectData.sprintsNr + "</td></tr>" +
+        "<tr><td>Issues</td>" + "<td>" + projectData.issuesNr + "</td></tr>" +
+        "<tr><td>Bugs</td>" + "<td>" + projectData.bugNr + "</td></tr>" +
+        "<tr><td>Features</td>" + "<td>" + projectData.featureNr + "</td></tr>" +
+        "<tr><td>Comments</td>" + "<td>" + projectData.commentNr + "</td></tr>" + statusContent+
+        "</tbody></table>"
+        console.log(projectTableData);
 
-            projectTable.innerHTML=tableContent;
+        projectTableData.innerHTML = tableContent;
 
-        }
-        createProjTable()
+}
+createProjTable();
